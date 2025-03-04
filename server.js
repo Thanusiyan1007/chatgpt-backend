@@ -38,5 +38,4 @@ app.post("/chat", async (req, res) => {
     }
 });
 
-// Export for Vercel
 module.exports = app;
