@@ -13,18 +13,21 @@ app.use(cors());
 app.post("/chat", async (req, res) => {
     try {
         const { prompt } = req.body;
-        if (!prompt) return res.status(400).json({ error: "Prompt is required" });
+
+        if (!prompt) {
+            return res.status(400).json({ error: "Prompt is required" });
+        }
 
         const response = await axios.post(
             "https://api.openai.com/v1/chat/completions",
             {
-                model: "gpt-3.5-turbo",
+                model: "gpt-3.5-turbo", // You can change to "gpt-4" if needed
                 messages: [{ role: "user", content: prompt }],
                 max_tokens: 200,
             },
             {
                 headers: {
-                    Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+                    "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
                     "Content-Type": "application/json",
                 },
             }
@@ -38,4 +41,7 @@ app.post("/chat", async (req, res) => {
     }
 });
 
-module.exports = app;
+// Start Server
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});
